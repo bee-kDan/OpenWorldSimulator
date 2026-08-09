@@ -6,5 +6,20 @@
 
 
 
-* Set up map 
+* Set up map
+
+
+
+
+
+### **Day 2:**
+
+
+
+* Add Raycast
+* Add Rabbit 
+* Add Interaction UI 
+* Learn about shader
+
+
 
