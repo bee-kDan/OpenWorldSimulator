@@ -10,4 +10,11 @@ public class InteractableObject : MonoBehaviour
     {
         return ItemName;
     }
+    public void Pickup()
+    {
+        Debug.Log("Picked up: " + ItemName);
+
+        // Tạm thời xóa item khỏi scene
+        Destroy(gameObject);
+    }
 }

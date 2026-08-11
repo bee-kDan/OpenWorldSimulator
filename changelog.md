@@ -21,5 +21,10 @@
 * Add Interaction UI 
 * Learn about shader
 
+### **Day 2:**
 
-
+* Add picking up 
+(
+    InteractableObject.cs thêm hàm [pickup()] xóa item 
+    SelectionManager.cs  thêm giới hạn kc ray cast [rayDistance]
+)
