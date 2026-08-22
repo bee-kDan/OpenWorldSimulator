@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    public string ItemName;
+    public string itemName;
 
     public string GetItemName()
     {
-        return ItemName;
+        return itemName;
     }
     public void Pickup()
     {
-        Debug.Log("Picked up: " + ItemName);
+        if (!InventorySystem.Instance.CheckIsFull())
+        {
+            Debug.Log("Picked up: " + itemName);
 
-        // Tạm thời xóa item khỏi scene
-        Destroy(gameObject);
+            InventorySystem.Instance.AddToInventory(itemName);
+
+            // Tạm thời xóa item khỏi scene
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log("Your bag is full");
+        }
     }
+
 }

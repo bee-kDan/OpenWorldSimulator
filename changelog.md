@@ -35,3 +35,7 @@
 * Inventory UI 
 
 
+### **Day 5:**
+
+* Done Inventory UI 
+

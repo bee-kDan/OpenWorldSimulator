@@ -27,12 +27,14 @@ public class SelectionManager : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
         {
             InteractableObject interactable =
-                hit.transform.GetComponent<InteractableObject>();
+                hit.transform.GetComponentInParent<InteractableObject>();
 
             if (interactable != null)
             {
                 currentInteractable = interactable;
 
+                // Chỉ hiện tên item
+                interaction_text.text = interactable.GetItemName();
                 interaction_text.gameObject.SetActive(true);
             }
             else
