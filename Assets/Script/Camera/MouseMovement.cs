@@ -15,7 +15,7 @@ public class MouseMovement : MonoBehaviour
 
     void Update()
     {
-        if (!InventorySystem.Instance.isOpen)
+        if (!InventorySystem.Instance.isOpen && !CraftingSystem.Instance.isOpen)
         {
             Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 

@@ -39,3 +39,7 @@
 
 * Done Inventory UI 
 
+### **Day 6:**
+
+* Add Crafting UI
+
