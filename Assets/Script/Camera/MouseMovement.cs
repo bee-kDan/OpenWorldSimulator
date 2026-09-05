@@ -18,7 +18,7 @@ public class MouseMovement : MonoBehaviour
         if (!InventorySystem.Instance.isOpen && !CraftingSystem.Instance.isOpen)
         {
             Vector2 mouseDelta = Mouse.current.delta.ReadValue();
-
+            
             float mouseX = mouseDelta.x * mouseSensitivity * Time.deltaTime;
             float mouseY = mouseDelta.y * mouseSensitivity * Time.deltaTime;
 

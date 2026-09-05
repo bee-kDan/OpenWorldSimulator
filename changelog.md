@@ -43,3 +43,8 @@
 
 * Add Crafting UI
 
+
+### **Day 7:**
+
+* Done Crafting Basic (need to improve alot)
+

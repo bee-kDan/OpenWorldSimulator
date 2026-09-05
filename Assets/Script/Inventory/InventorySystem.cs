@@ -71,9 +71,12 @@ public class InventorySystem : MonoBehaviour
         }
         else if (Keyboard.current.iKey.isPressed && isOpen)
         {
-            inventoryScreenUI.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            isOpen = false;
+            if (!CraftingSystem.Instance.isOpen)
+            {
+                inventoryScreenUI.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                isOpen = false;
+            }
         }
     }
 
@@ -122,6 +125,50 @@ public class InventorySystem : MonoBehaviour
         return new GameObject();
     }
 
+    // Hàm remove 1 item trong slotList (tên, SL)
+    public void RemoveItem(string nameToRemove, int amountToRemove)
+    {
+        int counter = amountToRemove;
+
+        for (int i = slotList.Count - 1; i >= 0 && counter > 0; i--)
+        {
+            Transform slot = slotList[i].transform;
+
+            if (slot.childCount > 0)
+            {
+                GameObject item = slot.GetChild(0).gameObject;
+
+                string itemName = item.name.Replace("(Clone)", "").Trim();
+
+                if (itemName == nameToRemove)
+                {
+                    Destroy(item);
+                    counter--;
+                }
+            }
+        }
+
+        RecalculateList();
+    }
+
+    // Hàm đếm item trong túi để hiển thị khi craft xem mình có đủ DK để craft ko 
+    public void RecalculateList()
+    {
+        itemList.Clear();
+        foreach(GameObject slot in slotList)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                string name = slot.transform.GetChild(0).name;
+                string cloneText = "Clone";
+                string clearName = name.Replace(cloneText, "");
+                itemList.Add(clearName);
+            }
+
+        }
+    }
+
+    
 
 
 } 
