@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class SelectionManager : MonoBehaviour
 
     private InteractableObject currentInteractable;
 
+    public Image centerDotImage;
+    public Image handIcon;
+
     private void Start()
     {
         interaction_text.gameObject.SetActive(false);
@@ -16,13 +20,14 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Mouse.current == null || Camera.main == null)
-            return;
+        if (Camera.main == null) return;
 
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        // Bắn ray từ giữa màn hình (chỗ có dấu chấm)
+        Ray ray = Camera.main.ScreenPointToRay(
+            new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
 
         currentInteractable = null;
+        bool showHand = false;
 
         if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
         {
@@ -32,30 +37,30 @@ public class SelectionManager : MonoBehaviour
             if (interactable != null)
             {
                 currentInteractable = interactable;
-
-                // Chỉ hiện tên item
                 interaction_text.text = interactable.GetItemName();
                 interaction_text.gameObject.SetActive(true);
+
+                // Kiểm tra tag ở cả collider trúng lẫn object cha
+                showHand = hit.collider.CompareTag("pickable")
+                        || interactable.gameObject.CompareTag("pickable");
             }
-            else
-            {
-                interaction_text.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            interaction_text.gameObject.SetActive(false);
         }
 
-        // Nhấn E để pickup
+        if (currentInteractable == null)
+            interaction_text.gameObject.SetActive(false);
+
+        centerDotImage.gameObject.SetActive(!showHand);
+        handIcon.gameObject.SetActive(showHand);
+
         if (currentInteractable != null &&
             Keyboard.current != null &&
             Keyboard.current.eKey.wasPressedThisFrame)
         {
             currentInteractable.Pickup();
-
             currentInteractable = null;
             interaction_text.gameObject.SetActive(false);
+            centerDotImage.gameObject.SetActive(true);
+            handIcon.gameObject.SetActive(false);
         }
     }
 }

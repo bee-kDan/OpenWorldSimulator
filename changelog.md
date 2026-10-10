@@ -48,3 +48,10 @@
 
 * Done Crafting Basic (need to improve alot)
 
+
+
+### **Day 8:**
+
+* Fix all the UI bug
+* Adding player status system 
+* Time spend 5 hour

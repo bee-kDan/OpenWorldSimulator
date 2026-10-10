@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -20,6 +22,16 @@ public class InventorySystem : MonoBehaviour
 
     private GameObject itemToAdd;
     private GameObject whatSlotToEquip;
+
+    //Pickup Pop up
+
+    public GameObject pickupAlert;
+    public TMP_Text pickupName;
+    public Image pickupImage;
+
+
+    // item Info UI
+    public GameObject ItemInfoUi;
 
 
     private void Awake()
@@ -59,22 +71,21 @@ public class InventorySystem : MonoBehaviour
 
     void Update()
     {
-
-        if (Keyboard.current.iKey.isPressed && !isOpen)
+        if (Keyboard.current.iKey.wasPressedThisFrame && !isOpen)
         {
-
             Debug.Log("i is pressed");
             inventoryScreenUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             isOpen = true;
-
         }
-        else if (Keyboard.current.iKey.isPressed && isOpen)
+        else if (Keyboard.current.iKey.wasPressedThisFrame && isOpen)
         {
             if (!CraftingSystem.Instance.isOpen)
             {
                 inventoryScreenUI.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 isOpen = false;
             }
         }
@@ -83,15 +94,33 @@ public class InventorySystem : MonoBehaviour
     public void AddToInventory(string itemName)
     {
 
-            whatSlotToEquip = FindNextEmptySlot();
+        whatSlotToEquip = FindNextEmptySlot();
 
-            itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+        itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
 
-            itemToAdd.transform.SetParent(whatSlotToEquip.transform);
+        itemToAdd.transform.SetParent(whatSlotToEquip.transform);
 
-            itemList.Add(itemName);
-        
+        itemList.Add(itemName);
+
+        TriggerPickupPopup(itemName, itemToAdd.GetComponent<Image>().sprite);
+
+        RecalculateList();
+        CraftingSystem.Instance.RefreshNeededItems();
+
+
     }
+
+    void TriggerPickupPopup(string itemName, Sprite itemSprite)
+    {
+        pickupAlert.SetActive(true);
+
+        pickupName.text = itemName;
+
+        pickupImage.sprite = itemSprite;
+
+    }
+
+
 
     public bool CheckIsFull()
     {
@@ -149,6 +178,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         RecalculateList();
+        CraftingSystem.Instance.RefreshNeededItems();
     }
 
     // Hàm đếm item trong túi để hiển thị khi craft xem mình có đủ DK để craft ko 

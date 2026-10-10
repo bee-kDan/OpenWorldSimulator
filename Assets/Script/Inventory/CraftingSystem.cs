@@ -65,31 +65,26 @@ public class CraftingSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Gọi hàm để update UI Crafting
-        RefreshNeededItems();
-
-        // Mở Inventory
-        if (Keyboard.current.cKey.isPressed && !isOpen)
+        if (Keyboard.current.cKey.wasPressedThisFrame)
         {
-
-            Debug.Log("i is pressed");
-            craftingSceneUI.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            isOpen = true;
-
-        }
-        // Mở Crafting UI
-        else if (Keyboard.current.cKey.isPressed && isOpen)
-        {
-            craftingSceneUI.SetActive(false);
-            toolsSceneUI.SetActive(false);
-            if (!InventorySystem.Instance.isOpen)
+            if (!isOpen)
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                craftingSceneUI.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                isOpen = true;
+            }
+            else
+            {
+                craftingSceneUI.SetActive(false);
+                toolsSceneUI.SetActive(false);
+
+                if (!InventorySystem.Instance.isOpen)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
                 isOpen = false;
             }
         }
-         
     }
 
     void OpenToolCategory()
@@ -138,17 +133,17 @@ public class CraftingSystem : MonoBehaviour
 
         StartCoroutine(calculate());
 
-        RefreshNeededItems();
     }
 
     public IEnumerator calculate()
     {
-        yield return new WaitForSeconds(1);
+        yield return 0;
 
         InventorySystem.Instance.RecalculateList();
+        RefreshNeededItems();
     }
 
-    private void RefreshNeededItems()
+    public void RefreshNeededItems()
     {
         int stone_count = 0;
         int stick_count = 0;

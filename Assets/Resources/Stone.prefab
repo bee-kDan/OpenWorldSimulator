@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3640982939346916157}
   - component: {fileID: 1845250480147778442}
   - component: {fileID: 3293866199512533690}
+  - component: {fileID: 1855586512600532229}
   m_Layer: 5
   m_Name: Stone
   m_TagString: Untagged
@@ -101,3 +102,23 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1855586512600532229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5559256846417467811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ee710467222a04aab481c303e23c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
+  isTrashable: 0
+  thisName: Stone
+  thisDescription: Little rock
+  thisFunctionality: Used to craft
+  isConsumable: 0
+  healthEffect: 0
+  caloriesEffect: 0
+  hydrationEffect: 0

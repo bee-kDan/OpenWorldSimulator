@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3650945067578993848}
   - component: {fileID: 1385367294669640954}
   - component: {fileID: 1039673851830084549}
+  - component: {fileID: 5001976560825861321}
   m_Layer: 5
   m_Name: Stick
   m_TagString: Untagged
@@ -101,3 +102,23 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &5001976560825861321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3857489691901691787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ee710467222a04aab481c303e23c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
+  isTrashable: 0
+  thisName: Stick
+  thisDescription: Wooden stick
+  thisFunctionality: Used to craft
+  isConsumable: 1
+  healthEffect: 100
+  caloriesEffect: 1000
+  hydrationEffect: 100
