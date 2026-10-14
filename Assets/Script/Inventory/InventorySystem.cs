@@ -10,29 +10,24 @@ using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
-
     public static InventorySystem Instance { get; set; }
 
     public GameObject inventoryScreenUI;
     public bool isOpen;
 
-    public List <GameObject> slotList = new List<GameObject>();
-    public List <string> itemList = new List<string>();
-    //public bool isFull;
+    public List<GameObject> slotList = new List<GameObject>();
+    public List<string> itemList = new List<string>();
 
     private GameObject itemToAdd;
     private GameObject whatSlotToEquip;
 
     //Pickup Pop up
-
     public GameObject pickupAlert;
     public TMP_Text pickupName;
     public Image pickupImage;
 
-
     // item Info UI
     public GameObject ItemInfoUi;
-
 
     private void Awake()
     {
@@ -46,28 +41,26 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-
     void Start()
     {
         isOpen = false;
-
         PopulateSlotList();
     }
 
-
-    // add all the slot in the inventory to the list 
+    // Tìm tất cả slot ở mọi cấp con (kể cả nằm trong SlotWrapper)
     private void PopulateSlotList()
     {
-        foreach (Transform child in inventoryScreenUI.transform) 
+        slotList.Clear();
+
+        // true = lấy cả object đang tắt (inventory thường đang inactive lúc Start)
+        foreach (Transform t in inventoryScreenUI.GetComponentsInChildren<Transform>(true))
         {
-            if (child.CompareTag("Slot"))
+            if (t.gameObject != inventoryScreenUI && t.CompareTag("Slot"))
             {
-                slotList.Add(child.gameObject);
+                slotList.Add(t.gameObject);
             }
         }
     }
-
-
 
     void Update()
     {
@@ -93,11 +86,15 @@ public class InventorySystem : MonoBehaviour
 
     public void AddToInventory(string itemName)
     {
-
         whatSlotToEquip = FindNextEmptySlot();
 
-        itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+        if (whatSlotToEquip == null)
+        {
+            Debug.LogWarning("Inventory đầy hoặc không tìm thấy slot nào (kiểm tra tag 'Slot')");
+            return;
+        }
 
+        itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
         itemToAdd.transform.SetParent(whatSlotToEquip.transform);
 
         itemList.Add(itemName);
@@ -106,55 +103,40 @@ public class InventorySystem : MonoBehaviour
 
         RecalculateList();
         CraftingSystem.Instance.RefreshNeededItems();
-
-
     }
 
     void TriggerPickupPopup(string itemName, Sprite itemSprite)
     {
         pickupAlert.SetActive(true);
-
         pickupName.text = itemName;
-
         pickupImage.sprite = itemSprite;
-
     }
-
-
 
     public bool CheckIsFull()
     {
-        int counter = 0;
-        foreach(GameObject slot in slotList)
+        foreach (GameObject slot in slotList)
         {
-            if(slot.transform.childCount > 0)
+            if (slot.transform.childCount == 0)
             {
-                counter += 1;
+                return false;
             }
         }
-
-
-        if (counter == 21)
-        {
-            return true;
-        }
-        else return false; 
-
+        return true;
     }
 
     private GameObject FindNextEmptySlot()
     {
-        foreach(GameObject slot in slotList)
+        foreach (GameObject slot in slotList)
         {
-            if (slot.transform.childCount ==0)
+            if (slot.transform.childCount == 0)
             {
                 return slot;
             }
         }
-        return new GameObject();
+        return null;
     }
 
-    // Hàm remove 1 item trong slotList (tên, SL)
+    // Hàm remove item trong slotList (tên, SL)
     public void RemoveItem(string nameToRemove, int amountToRemove)
     {
         int counter = amountToRemove;
@@ -171,6 +153,8 @@ public class InventorySystem : MonoBehaviour
 
                 if (itemName == nameToRemove)
                 {
+                    // Tách khỏi slot ngay để childCount về 0 trước khi Destroy cuối frame
+                    item.transform.SetParent(null);
                     Destroy(item);
                     counter--;
                 }
@@ -181,24 +165,17 @@ public class InventorySystem : MonoBehaviour
         CraftingSystem.Instance.RefreshNeededItems();
     }
 
-    // Hàm đếm item trong túi để hiển thị khi craft xem mình có đủ DK để craft ko 
+    // Đếm item trong túi để hiển thị khi craft
     public void RecalculateList()
     {
         itemList.Clear();
-        foreach(GameObject slot in slotList)
+        foreach (GameObject slot in slotList)
         {
             if (slot.transform.childCount > 0)
             {
-                string name = slot.transform.GetChild(0).name;
-                string cloneText = "Clone";
-                string clearName = name.Replace(cloneText, "");
+                string clearName = slot.transform.GetChild(0).name.Replace("(Clone)", "").Trim();
                 itemList.Add(clearName);
             }
-
         }
     }
-
-    
-
-
-} 
+}

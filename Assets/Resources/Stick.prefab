@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ee710467222a04aab481c303e23c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
-  isTrashable: 0
+  isTrashable: 1
   thisName: Stick
   thisDescription: Wooden stick
   thisFunctionality: Used to craft
@@ -122,3 +122,6 @@ MonoBehaviour:
   healthEffect: 100
   caloriesEffect: 1000
   hydrationEffect: 100
+  isEquippable: 1
+  isInsideQuickSlot: 0
+  isSelected: 0

@@ -31,7 +31,7 @@ public class SelectionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
         {
-            InteractableObject interactable =
+             InteractableObject interactable =
                 hit.transform.GetComponentInParent<InteractableObject>();
 
             if (interactable != null)
@@ -60,6 +60,10 @@ public class SelectionManager : MonoBehaviour
             currentInteractable = null;
             interaction_text.gameObject.SetActive(false);
             centerDotImage.gameObject.SetActive(true);
+            handIcon.gameObject.SetActive(false);
+        }
+        if (InventorySystem.Instance.isOpen || CraftingSystem.Instance.isOpen)
+        {
             handIcon.gameObject.SetActive(false);
         }
     }

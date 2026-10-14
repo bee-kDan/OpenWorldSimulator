@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - pickable
+  - Slot
+  - background
+  - QuickSlot
   layers:
   - Default
   - TransparentFX

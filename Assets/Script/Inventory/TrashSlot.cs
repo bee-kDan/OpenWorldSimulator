@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class TrashSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
 
     public GameObject trashAlertUI;
 
-    private Text textToModify;
+    private TMP_Text textToModify;
 
     public Sprite trash_closed;
     public Sprite trash_opened;
@@ -49,7 +50,7 @@ public class TrashSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
     {
         imageComponent = transform.Find("background").GetComponent<Image>();
 
-        textToModify = trashAlertUI.transform.Find("Text").GetComponent<Text>();
+        textToModify = trashAlertUI.transform.Find("Text").GetComponent<TMP_Text>();
 
         YesBTN = trashAlertUI.transform.Find("yes").GetComponent<Button>();
         YesBTN.onClick.AddListener(delegate { DeleteItem(); });

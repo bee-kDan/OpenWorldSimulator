@@ -55,3 +55,16 @@
 * Fix all the UI bug
 * Adding player status system 
 * Time spend 5 hour
+
+
+
+### **Day 9:**
+
+* Done trash can
+* Time spend 1 hour
+
+
+### **Day 10:**
+
+* Done QuickSlot
+* Time spend 3.5 hour
