@@ -71,6 +71,7 @@ public class CraftingSystem : MonoBehaviour
             {
                 craftingSceneUI.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 isOpen = true;
             }
             else
@@ -82,6 +83,7 @@ public class CraftingSystem : MonoBehaviour
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                 }
+                Cursor.visible = false;
                 isOpen = false;
             }
         }

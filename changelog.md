@@ -68,3 +68,10 @@
 
 * Done QuickSlot
 * Time spend 3.5 hour
+
+
+
+### **Day 10:**
+
+* Add a axe to ingame + 2 anim idle and hit
+* Time spend 2.5 hour

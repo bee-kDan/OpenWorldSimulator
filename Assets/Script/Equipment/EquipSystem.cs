@@ -19,7 +19,9 @@ public class EquipSystem : MonoBehaviour
     public int selectedNumber = -1;
     public GameObject selectedItem;
 
+    public GameObject toolHolder;
 
+    public GameObject selectedItemModel;
 
     private void Awake()
     {
@@ -64,6 +66,9 @@ public class EquipSystem : MonoBehaviour
             if (oldItem != null) oldItem.isSelected = false;
         }
 
+        // Ẩn model cũ (khi chọn item khác hoặc bỏ chọn)
+        ClearEquippedModel();
+
         if (selectedNumber != number)
         {
             selectedNumber = number;
@@ -76,6 +81,8 @@ public class EquipSystem : MonoBehaviour
                 return;
             }
             newItem.isSelected = true;
+
+            SetEquippedModel(selectedItem);
 
             SetAllNumberColors(Color.gray);
 
@@ -96,6 +103,26 @@ public class EquipSystem : MonoBehaviour
             SetAllNumberColors(Color.gray);
         }
     }
+
+    private void SetEquippedModel(GameObject selectedItem)
+    {
+        string selectedItemName = selectedItem.name.Replace("(Clone)", "");
+        GameObject prefab = Resources.Load<GameObject>(selectedItemName + "_Model");
+
+        if (prefab == null)
+        {
+            Debug.LogWarning($"Không tìm thấy model: {selectedItemName}_Model");
+            return;
+        }
+
+        selectedItemModel = Instantiate(prefab, toolHolder.transform); // truyền parent trực tiếp
+
+        selectedItemModel.transform.localPosition = new Vector3(0.349f, 0.352f, 0.749f);
+        selectedItemModel.transform.localRotation = Quaternion.Euler(-20f, -103f, -1.7f);
+    }
+
+
+
 
     private void SetAllNumberColors(Color color)
     {
@@ -164,6 +191,14 @@ public class EquipSystem : MonoBehaviour
         return new GameObject();
     }
 
+    private void ClearEquippedModel()
+    {
+        if (selectedItemModel != null)
+        {
+            Destroy(selectedItemModel);
+            selectedItemModel = null;
+        }
+    }
     public bool CheckIfFull()
     {
 
